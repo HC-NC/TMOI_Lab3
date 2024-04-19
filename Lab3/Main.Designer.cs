@@ -35,17 +35,27 @@
             System.Windows.Forms.Label label4;
             System.Windows.Forms.GroupBox groupBox2;
             System.Windows.Forms.Label label5;
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea7 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series7 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea8 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series8 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series9 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.GroupBox groupBox3;
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this._samplingListBox = new System.Windows.Forms.ListBox();
             this._divisionRuleComboBox = new System.Windows.Forms.ComboBox();
             this._columnsCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this._columnsCountTrackBar = new System.Windows.Forms.TrackBar();
             this._rebuildButton = new System.Windows.Forms.Button();
+            this._kernelCheckBox = new System.Windows.Forms.CheckBox();
+            this._kernelNumericUpDown = new System.Windows.Forms.NumericUpDown();
+            this.label6 = new System.Windows.Forms.Label();
+            this._kernelComboBox = new System.Windows.Forms.ComboBox();
+            this._kernelButton = new System.Windows.Forms.Button();
             this._countNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this._lawDistributionComboBox = new System.Windows.Forms.ComboBox();
             this._calcButton = new System.Windows.Forms.Button();
@@ -68,6 +78,10 @@
             this._distChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this._barChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this._kernelXLabel = new System.Windows.Forms.Label();
+            this._kernelXTrackBar = new System.Windows.Forms.TrackBar();
+            this._kernelChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this._paramGroupBox = new System.Windows.Forms.GroupBox();
             groupBox1 = new System.Windows.Forms.GroupBox();
@@ -77,10 +91,13 @@
             label4 = new System.Windows.Forms.Label();
             groupBox2 = new System.Windows.Forms.GroupBox();
             label5 = new System.Windows.Forms.Label();
+            groupBox3 = new System.Windows.Forms.GroupBox();
             groupBox1.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._columnsCountNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._columnsCountTrackBar)).BeginInit();
+            groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._kernelNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._countNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._mNumericUpDown)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._sigmaNumericUpDown)).BeginInit();
@@ -91,6 +108,9 @@
             ((System.ComponentModel.ISupportInitialize)(this._distChart)).BeginInit();
             this.tabPage3.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._barChart)).BeginInit();
+            this.tabPage4.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._kernelXTrackBar)).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)(this._kernelChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
@@ -194,6 +214,8 @@
             // 
             // _divisionRuleComboBox
             // 
+            this._divisionRuleComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
             this._divisionRuleComboBox.FormattingEnabled = true;
             this._divisionRuleComboBox.Location = new System.Drawing.Point(7, 27);
             this._divisionRuleComboBox.Margin = new System.Windows.Forms.Padding(4);
@@ -253,6 +275,95 @@
             this._rebuildButton.UseVisualStyleBackColor = true;
             this._rebuildButton.Click += new System.EventHandler(this._rebuildButtom_Click);
             // 
+            // groupBox3
+            // 
+            groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            groupBox3.Controls.Add(this._kernelCheckBox);
+            groupBox3.Controls.Add(this._kernelNumericUpDown);
+            groupBox3.Controls.Add(this.label6);
+            groupBox3.Controls.Add(this._kernelComboBox);
+            groupBox3.Controls.Add(this._kernelButton);
+            groupBox3.Location = new System.Drawing.Point(13, 534);
+            groupBox3.Margin = new System.Windows.Forms.Padding(4);
+            groupBox3.Name = "groupBox3";
+            groupBox3.Size = new System.Drawing.Size(283, 170);
+            groupBox3.TabIndex = 20;
+            groupBox3.TabStop = false;
+            groupBox3.Text = "Ядерная оценка";
+            // 
+            // _kernelCheckBox
+            // 
+            this._kernelCheckBox.AutoSize = true;
+            this._kernelCheckBox.Checked = true;
+            this._kernelCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
+            this._kernelCheckBox.Location = new System.Drawing.Point(8, 62);
+            this._kernelCheckBox.Name = "_kernelCheckBox";
+            this._kernelCheckBox.Size = new System.Drawing.Size(101, 24);
+            this._kernelCheckBox.TabIndex = 23;
+            this._kernelCheckBox.Text = "Auto C";
+            this._kernelCheckBox.UseVisualStyleBackColor = true;
+            this._kernelCheckBox.CheckedChanged += new System.EventHandler(this._kernelCheckBox_CheckedChanged);
+            // 
+            // _kernelNumericUpDown
+            // 
+            this._kernelNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._kernelNumericUpDown.DecimalPlaces = 2;
+            this._kernelNumericUpDown.Enabled = false;
+            this._kernelNumericUpDown.Increment = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
+            this._kernelNumericUpDown.Location = new System.Drawing.Point(190, 62);
+            this._kernelNumericUpDown.Maximum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            0});
+            this._kernelNumericUpDown.Name = "_kernelNumericUpDown";
+            this._kernelNumericUpDown.Size = new System.Drawing.Size(87, 27);
+            this._kernelNumericUpDown.TabIndex = 22;
+            this._kernelNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this._kernelNumericUpDown.ValueChanged += new System.EventHandler(this._kernelNumericUpDown_ValueChanged);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(139, 64);
+            this.label6.Margin = new System.Windows.Forms.Padding(4);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(31, 20);
+            this.label6.TabIndex = 21;
+            this.label6.Text = "C:";
+            // 
+            // _kernelComboBox
+            // 
+            this._kernelComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._kernelComboBox.FormattingEnabled = true;
+            this._kernelComboBox.Location = new System.Drawing.Point(8, 27);
+            this._kernelComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this._kernelComboBox.Name = "_kernelComboBox";
+            this._kernelComboBox.Size = new System.Drawing.Size(269, 28);
+            this._kernelComboBox.TabIndex = 20;
+            this._kernelComboBox.SelectedIndexChanged += new System.EventHandler(this._kernelComboBox_SelectedIndexChanged);
+            // 
+            // _kernelButton
+            // 
+            this._kernelButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._kernelButton.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            this._kernelButton.Location = new System.Drawing.Point(4, 99);
+            this._kernelButton.Margin = new System.Windows.Forms.Padding(4);
+            this._kernelButton.Name = "_kernelButton";
+            this._kernelButton.Size = new System.Drawing.Size(269, 64);
+            this._kernelButton.TabIndex = 13;
+            this._kernelButton.Text = "Перестроить";
+            this._kernelButton.UseVisualStyleBackColor = true;
+            this._kernelButton.Click += new System.EventHandler(this._kernelButton_Click);
+            // 
             // _countNumericUpDown
             // 
             this._countNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
@@ -265,7 +376,7 @@
             this._countNumericUpDown.Location = new System.Drawing.Point(207, 11);
             this._countNumericUpDown.Margin = new System.Windows.Forms.Padding(16, 4, 4, 4);
             this._countNumericUpDown.Maximum = new decimal(new int[] {
-            999999999,
+            1000000,
             0,
             0,
             0});
@@ -361,6 +472,7 @@
             this.tabControl1.Controls.Add(this.tabPage1);
             this.tabControl1.Controls.Add(this.tabPage2);
             this.tabControl1.Controls.Add(this.tabPage3);
+            this.tabControl1.Controls.Add(this.tabPage4);
             this.tabControl1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl1.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
@@ -457,20 +569,20 @@
             this._samplingChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea7.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea7.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea7.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea7.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea7.Name = "ChartArea1";
-            this._samplingChart.ChartAreas.Add(chartArea7);
+            chartArea1.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea1.Name = "ChartArea1";
+            this._samplingChart.ChartAreas.Add(chartArea1);
             this._samplingChart.Location = new System.Drawing.Point(276, 195);
             this._samplingChart.Margin = new System.Windows.Forms.Padding(4);
             this._samplingChart.Name = "_samplingChart";
-            series7.BorderWidth = 4;
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series7.Name = "Series1";
-            this._samplingChart.Series.Add(series7);
+            series1.BorderWidth = 4;
+            series1.ChartArea = "ChartArea1";
+            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series1.Name = "Series1";
+            this._samplingChart.Series.Add(series1);
             this._samplingChart.Size = new System.Drawing.Size(581, 506);
             this._samplingChart.TabIndex = 15;
             this._samplingChart.Text = "chart3";
@@ -531,24 +643,24 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 30);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(764, 510);
+            this.tabPage2.Size = new System.Drawing.Size(866, 710);
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Оценка функции распределения";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
             // _distChart
             // 
-            chartArea8.Name = "ChartArea1";
-            this._distChart.ChartAreas.Add(chartArea8);
+            chartArea2.Name = "ChartArea1";
+            this._distChart.ChartAreas.Add(chartArea2);
             this._distChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this._distChart.Location = new System.Drawing.Point(3, 3);
             this._distChart.Name = "_distChart";
-            series8.BorderWidth = 4;
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series8.Name = "Series1";
-            this._distChart.Series.Add(series8);
-            this._distChart.Size = new System.Drawing.Size(758, 504);
+            series2.BorderWidth = 4;
+            series2.ChartArea = "ChartArea1";
+            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series2.Name = "Series1";
+            this._distChart.Series.Add(series2);
+            this._distChart.Size = new System.Drawing.Size(860, 704);
             this._distChart.TabIndex = 0;
             this._distChart.Text = "chart1";
             // 
@@ -558,30 +670,97 @@
             this.tabPage3.Location = new System.Drawing.Point(4, 30);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage3.Size = new System.Drawing.Size(764, 510);
+            this.tabPage3.Size = new System.Drawing.Size(866, 710);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Гистограмма";
             this.tabPage3.UseVisualStyleBackColor = true;
             // 
             // _barChart
             // 
-            chartArea9.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea9.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea9.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea9.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea9.Name = "ChartArea1";
-            this._barChart.ChartAreas.Add(chartArea9);
+            chartArea3.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea3.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea3.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea3.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea3.Name = "ChartArea1";
+            this._barChart.ChartAreas.Add(chartArea3);
             this._barChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this._barChart.Location = new System.Drawing.Point(3, 3);
             this._barChart.Name = "_barChart";
-            series9.ChartArea = "ChartArea1";
-            series9.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            series9.IsValueShownAsLabel = true;
-            series9.Name = "Series1";
-            this._barChart.Series.Add(series9);
-            this._barChart.Size = new System.Drawing.Size(758, 504);
+            series3.ChartArea = "ChartArea1";
+            series3.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            series3.Name = "Series1";
+            this._barChart.Series.Add(series3);
+            this._barChart.Size = new System.Drawing.Size(860, 704);
             this._barChart.TabIndex = 1;
             this._barChart.Text = "chart2";
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.Controls.Add(this._kernelXLabel);
+            this.tabPage4.Controls.Add(this._kernelXTrackBar);
+            this.tabPage4.Controls.Add(this._kernelChart);
+            this.tabPage4.Location = new System.Drawing.Point(4, 30);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage4.Size = new System.Drawing.Size(866, 710);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Ядерная оценка";
+            this.tabPage4.UseVisualStyleBackColor = true;
+            // 
+            // _kernelXLabel
+            // 
+            this._kernelXLabel.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
+            this._kernelXLabel.AutoSize = true;
+            this._kernelXLabel.Location = new System.Drawing.Point(15, 654);
+            this._kernelXLabel.Name = "_kernelXLabel";
+            this._kernelXLabel.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this._kernelXLabel.Size = new System.Drawing.Size(42, 20);
+            this._kernelXLabel.TabIndex = 3;
+            this._kernelXLabel.Text = "0,5";
+            this._kernelXLabel.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // _kernelXTrackBar
+            // 
+            this._kernelXTrackBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._kernelXTrackBar.Location = new System.Drawing.Point(74, 638);
+            this._kernelXTrackBar.Maximum = 100;
+            this._kernelXTrackBar.Name = "_kernelXTrackBar";
+            this._kernelXTrackBar.RightToLeft = System.Windows.Forms.RightToLeft.No;
+            this._kernelXTrackBar.Size = new System.Drawing.Size(764, 69);
+            this._kernelXTrackBar.TabIndex = 2;
+            this._kernelXTrackBar.TickStyle = System.Windows.Forms.TickStyle.TopLeft;
+            this._kernelXTrackBar.Value = 50;
+            this._kernelXTrackBar.Scroll += new System.EventHandler(this._nXTrackBar_Scroll);
+            // 
+            // _kernelChart
+            // 
+            this._kernelChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            chartArea4.Name = "ChartArea1";
+            this._kernelChart.ChartAreas.Add(chartArea4);
+            this._kernelChart.Location = new System.Drawing.Point(3, 3);
+            this._kernelChart.Name = "_kernelChart";
+            series4.BorderWidth = 4;
+            series4.ChartArea = "ChartArea1";
+            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
+            series4.Name = "Series1";
+            series5.BorderWidth = 4;
+            series5.ChartArea = "ChartArea1";
+            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series5.Name = "Series2";
+            series6.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            series6.BorderWidth = 2;
+            series6.ChartArea = "ChartArea1";
+            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series6.Name = "Series3";
+            this._kernelChart.Series.Add(series4);
+            this._kernelChart.Series.Add(series5);
+            this._kernelChart.Series.Add(series6);
+            this._kernelChart.Size = new System.Drawing.Size(860, 629);
+            this._kernelChart.TabIndex = 1;
+            this._kernelChart.Text = "chart1";
             // 
             // splitContainer1
             // 
@@ -591,6 +770,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(groupBox3);
             this.splitContainer1.Panel1.Controls.Add(groupBox2);
             this.splitContainer1.Panel1.Controls.Add(this._paramGroupBox);
             this.splitContainer1.Panel1.Controls.Add(label2);
@@ -631,12 +811,16 @@
             this.ClientSize = new System.Drawing.Size(1178, 744);
             this.Controls.Add(this.splitContainer1);
             this.Name = "Main";
+            this.ShowIcon = false;
             this.Text = " Main";
             groupBox1.ResumeLayout(false);
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._columnsCountNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._columnsCountTrackBar)).EndInit();
+            groupBox3.ResumeLayout(false);
+            groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._kernelNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._countNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._mNumericUpDown)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._sigmaNumericUpDown)).EndInit();
@@ -648,6 +832,10 @@
             ((System.ComponentModel.ISupportInitialize)(this._distChart)).EndInit();
             this.tabPage3.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this._barChart)).EndInit();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._kernelXTrackBar)).EndInit();
+            ((System.ComponentModel.ISupportInitialize)(this._kernelChart)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -690,6 +878,15 @@
         private System.Windows.Forms.TextBox _DTextBox;
         private System.Windows.Forms.TextBox _sigmaTextBox;
         private System.Windows.Forms.GroupBox _paramGroupBox;
+        private System.Windows.Forms.TabPage tabPage4;
+        private System.Windows.Forms.DataVisualization.Charting.Chart _kernelChart;
+        private System.Windows.Forms.TrackBar _kernelXTrackBar;
+        private System.Windows.Forms.Button _kernelButton;
+        private System.Windows.Forms.Label _kernelXLabel;
+        private System.Windows.Forms.ComboBox _kernelComboBox;
+        private System.Windows.Forms.NumericUpDown _kernelNumericUpDown;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.CheckBox _kernelCheckBox;
     }
 }
 
