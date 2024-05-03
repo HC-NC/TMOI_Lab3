@@ -36,22 +36,22 @@
             System.Windows.Forms.GroupBox groupBox2;
             System.Windows.Forms.Label label5;
             System.Windows.Forms.GroupBox groupBox3;
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series1 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea2 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series2 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea3 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series3 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea4 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
-            System.Windows.Forms.DataVisualization.Charting.Series series4 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series5 = new System.Windows.Forms.DataVisualization.Charting.Series();
-            System.Windows.Forms.DataVisualization.Charting.Series series6 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea9 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series13 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea10 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series14 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea11 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series15 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea12 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Series series16 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series17 = new System.Windows.Forms.DataVisualization.Charting.Series();
+            System.Windows.Forms.DataVisualization.Charting.Series series18 = new System.Windows.Forms.DataVisualization.Charting.Series();
             this._samplingListBox = new System.Windows.Forms.ListBox();
             this._divisionRuleComboBox = new System.Windows.Forms.ComboBox();
             this._columnsCountNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this._columnsCountTrackBar = new System.Windows.Forms.TrackBar();
             this._rebuildButton = new System.Windows.Forms.Button();
-            this._kernelCheckBox = new System.Windows.Forms.CheckBox();
+            this._autoCComboBox = new System.Windows.Forms.ComboBox();
             this._kernelNumericUpDown = new System.Windows.Forms.NumericUpDown();
             this.label6 = new System.Windows.Forms.Label();
             this._kernelComboBox = new System.Windows.Forms.ComboBox();
@@ -83,7 +83,11 @@
             this._kernelXTrackBar = new System.Windows.Forms.TrackBar();
             this._kernelChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this._calcProgressBar = new System.Windows.Forms.ProgressBar();
             this._paramGroupBox = new System.Windows.Forms.GroupBox();
+            this._calcWorker = new System.ComponentModel.BackgroundWorker();
+            this._kernelWorker = new System.ComponentModel.BackgroundWorker();
+            this._kernelProgressBar = new System.Windows.Forms.ProgressBar();
             groupBox1 = new System.Windows.Forms.GroupBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -127,7 +131,7 @@
             groupBox1.Location = new System.Drawing.Point(0, 0);
             groupBox1.Margin = new System.Windows.Forms.Padding(4);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new System.Drawing.Size(268, 710);
+            groupBox1.Size = new System.Drawing.Size(268, 724);
             groupBox1.TabIndex = 16;
             groupBox1.TabStop = false;
             groupBox1.Text = "Выборка";
@@ -142,7 +146,7 @@
             this._samplingListBox.Margin = new System.Windows.Forms.Padding(4);
             this._samplingListBox.Name = "_samplingListBox";
             this._samplingListBox.SelectionMode = System.Windows.Forms.SelectionMode.MultiExtended;
-            this._samplingListBox.Size = new System.Drawing.Size(262, 684);
+            this._samplingListBox.Size = new System.Drawing.Size(262, 698);
             this._samplingListBox.TabIndex = 0;
             // 
             // label1
@@ -279,7 +283,8 @@
             // 
             groupBox3.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            groupBox3.Controls.Add(this._kernelCheckBox);
+            groupBox3.Controls.Add(this._kernelProgressBar);
+            groupBox3.Controls.Add(this._autoCComboBox);
             groupBox3.Controls.Add(this._kernelNumericUpDown);
             groupBox3.Controls.Add(this.label6);
             groupBox3.Controls.Add(this._kernelComboBox);
@@ -287,51 +292,60 @@
             groupBox3.Location = new System.Drawing.Point(13, 534);
             groupBox3.Margin = new System.Windows.Forms.Padding(4);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new System.Drawing.Size(283, 170);
+            groupBox3.Size = new System.Drawing.Size(283, 206);
             groupBox3.TabIndex = 20;
             groupBox3.TabStop = false;
             groupBox3.Text = "Ядерная оценка";
             // 
-            // _kernelCheckBox
+            // _autoCComboBox
             // 
-            this._kernelCheckBox.AutoSize = true;
-            this._kernelCheckBox.Checked = true;
-            this._kernelCheckBox.CheckState = System.Windows.Forms.CheckState.Checked;
-            this._kernelCheckBox.Location = new System.Drawing.Point(8, 62);
-            this._kernelCheckBox.Name = "_kernelCheckBox";
-            this._kernelCheckBox.Size = new System.Drawing.Size(101, 24);
-            this._kernelCheckBox.TabIndex = 23;
-            this._kernelCheckBox.Text = "Auto C";
-            this._kernelCheckBox.UseVisualStyleBackColor = true;
-            this._kernelCheckBox.CheckedChanged += new System.EventHandler(this._kernelCheckBox_CheckedChanged);
+            this._autoCComboBox.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._autoCComboBox.FormattingEnabled = true;
+            this._autoCComboBox.Location = new System.Drawing.Point(8, 63);
+            this._autoCComboBox.Margin = new System.Windows.Forms.Padding(4);
+            this._autoCComboBox.Name = "_autoCComboBox";
+            this._autoCComboBox.Size = new System.Drawing.Size(269, 28);
+            this._autoCComboBox.TabIndex = 24;
+            this._autoCComboBox.SelectedIndexChanged += new System.EventHandler(this._autoCComboBox_SelectedIndexChanged);
             // 
             // _kernelNumericUpDown
             // 
             this._kernelNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._kernelNumericUpDown.DecimalPlaces = 2;
+            this._kernelNumericUpDown.DecimalPlaces = 3;
             this._kernelNumericUpDown.Enabled = false;
             this._kernelNumericUpDown.Increment = new decimal(new int[] {
             1,
             0,
             0,
             131072});
-            this._kernelNumericUpDown.Location = new System.Drawing.Point(190, 62);
+            this._kernelNumericUpDown.Location = new System.Drawing.Point(51, 101);
             this._kernelNumericUpDown.Maximum = new decimal(new int[] {
             1,
             0,
             0,
             0});
+            this._kernelNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             this._kernelNumericUpDown.Name = "_kernelNumericUpDown";
-            this._kernelNumericUpDown.Size = new System.Drawing.Size(87, 27);
+            this._kernelNumericUpDown.Size = new System.Drawing.Size(222, 27);
             this._kernelNumericUpDown.TabIndex = 22;
             this._kernelNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this._kernelNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            196608});
             this._kernelNumericUpDown.ValueChanged += new System.EventHandler(this._kernelNumericUpDown_ValueChanged);
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(139, 64);
+            this.label6.Location = new System.Drawing.Point(8, 103);
             this.label6.Margin = new System.Windows.Forms.Padding(4);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(31, 20);
@@ -355,7 +369,7 @@
             this._kernelButton.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this._kernelButton.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this._kernelButton.Location = new System.Drawing.Point(4, 99);
+            this._kernelButton.Location = new System.Drawing.Point(4, 135);
             this._kernelButton.Margin = new System.Windows.Forms.Padding(4);
             this._kernelButton.Name = "_kernelButton";
             this._kernelButton.Size = new System.Drawing.Size(269, 64);
@@ -461,10 +475,20 @@
             131072});
             this._sigmaNumericUpDown.Location = new System.Drawing.Point(190, 58);
             this._sigmaNumericUpDown.Margin = new System.Windows.Forms.Padding(16, 4, 4, 4);
+            this._sigmaNumericUpDown.Minimum = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this._sigmaNumericUpDown.Name = "_sigmaNumericUpDown";
             this._sigmaNumericUpDown.Size = new System.Drawing.Size(88, 27);
             this._sigmaNumericUpDown.TabIndex = 6;
             this._sigmaNumericUpDown.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this._sigmaNumericUpDown.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            131072});
             this._sigmaNumericUpDown.ValueChanged += new System.EventHandler(this._sigmaNumericUpDown_ValueChanged);
             // 
             // tabControl1
@@ -478,7 +502,7 @@
             this.tabControl1.Location = new System.Drawing.Point(0, 0);
             this.tabControl1.Name = "tabControl1";
             this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(874, 744);
+            this.tabControl1.Size = new System.Drawing.Size(874, 758);
             this.tabControl1.TabIndex = 7;
             // 
             // tabPage1
@@ -499,7 +523,7 @@
             this.tabPage1.Margin = new System.Windows.Forms.Padding(4);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(4);
-            this.tabPage1.Size = new System.Drawing.Size(866, 710);
+            this.tabPage1.Size = new System.Drawing.Size(866, 724);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Числовые характеристики";
             this.tabPage1.UseVisualStyleBackColor = true;
@@ -569,21 +593,21 @@
             this._samplingChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea1.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea1.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea1.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea1.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea1.Name = "ChartArea1";
-            this._samplingChart.ChartAreas.Add(chartArea1);
+            chartArea9.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea9.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea9.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea9.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea9.Name = "ChartArea1";
+            this._samplingChart.ChartAreas.Add(chartArea9);
             this._samplingChart.Location = new System.Drawing.Point(276, 195);
             this._samplingChart.Margin = new System.Windows.Forms.Padding(4);
             this._samplingChart.Name = "_samplingChart";
-            series1.BorderWidth = 4;
-            series1.ChartArea = "ChartArea1";
-            series1.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
-            series1.Name = "Series1";
-            this._samplingChart.Series.Add(series1);
-            this._samplingChart.Size = new System.Drawing.Size(581, 506);
+            series13.BorderWidth = 4;
+            series13.ChartArea = "ChartArea1";
+            series13.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Point;
+            series13.Name = "Series1";
+            this._samplingChart.Series.Add(series13);
+            this._samplingChart.Size = new System.Drawing.Size(581, 520);
             this._samplingChart.TabIndex = 15;
             this._samplingChart.Text = "chart3";
             // 
@@ -650,16 +674,16 @@
             // 
             // _distChart
             // 
-            chartArea2.Name = "ChartArea1";
-            this._distChart.ChartAreas.Add(chartArea2);
+            chartArea10.Name = "ChartArea1";
+            this._distChart.ChartAreas.Add(chartArea10);
             this._distChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this._distChart.Location = new System.Drawing.Point(3, 3);
             this._distChart.Name = "_distChart";
-            series2.BorderWidth = 4;
-            series2.ChartArea = "ChartArea1";
-            series2.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series2.Name = "Series1";
-            this._distChart.Series.Add(series2);
+            series14.BorderWidth = 4;
+            series14.ChartArea = "ChartArea1";
+            series14.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series14.Name = "Series1";
+            this._distChart.Series.Add(series14);
             this._distChart.Size = new System.Drawing.Size(860, 704);
             this._distChart.TabIndex = 0;
             this._distChart.Text = "chart1";
@@ -677,19 +701,19 @@
             // 
             // _barChart
             // 
-            chartArea3.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea3.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea3.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea3.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea3.Name = "ChartArea1";
-            this._barChart.ChartAreas.Add(chartArea3);
+            chartArea11.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea11.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea11.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea11.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea11.Name = "ChartArea1";
+            this._barChart.ChartAreas.Add(chartArea11);
             this._barChart.Dock = System.Windows.Forms.DockStyle.Fill;
             this._barChart.Location = new System.Drawing.Point(3, 3);
             this._barChart.Name = "_barChart";
-            series3.ChartArea = "ChartArea1";
-            series3.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            series3.Name = "Series1";
-            this._barChart.Series.Add(series3);
+            series15.ChartArea = "ChartArea1";
+            series15.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            series15.Name = "Series1";
+            this._barChart.Series.Add(series15);
             this._barChart.Size = new System.Drawing.Size(860, 704);
             this._barChart.TabIndex = 1;
             this._barChart.Text = "chart2";
@@ -738,26 +762,26 @@
             this._kernelChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            chartArea4.Name = "ChartArea1";
-            this._kernelChart.ChartAreas.Add(chartArea4);
+            chartArea12.Name = "ChartArea1";
+            this._kernelChart.ChartAreas.Add(chartArea12);
             this._kernelChart.Location = new System.Drawing.Point(3, 3);
             this._kernelChart.Name = "_kernelChart";
-            series4.BorderWidth = 4;
-            series4.ChartArea = "ChartArea1";
-            series4.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
-            series4.Name = "Series1";
-            series5.BorderWidth = 4;
-            series5.ChartArea = "ChartArea1";
-            series5.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series5.Name = "Series2";
-            series6.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
-            series6.BorderWidth = 2;
-            series6.ChartArea = "ChartArea1";
-            series6.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
-            series6.Name = "Series3";
-            this._kernelChart.Series.Add(series4);
-            this._kernelChart.Series.Add(series5);
-            this._kernelChart.Series.Add(series6);
+            series16.BorderWidth = 4;
+            series16.ChartArea = "ChartArea1";
+            series16.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Area;
+            series16.Name = "Series1";
+            series17.BorderWidth = 4;
+            series17.ChartArea = "ChartArea1";
+            series17.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series17.Name = "Series2";
+            series18.BorderDashStyle = System.Windows.Forms.DataVisualization.Charting.ChartDashStyle.Dot;
+            series18.BorderWidth = 2;
+            series18.ChartArea = "ChartArea1";
+            series18.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Spline;
+            series18.Name = "Series3";
+            this._kernelChart.Series.Add(series16);
+            this._kernelChart.Series.Add(series17);
+            this._kernelChart.Series.Add(series18);
             this._kernelChart.Size = new System.Drawing.Size(860, 629);
             this._kernelChart.TabIndex = 1;
             this._kernelChart.Text = "chart1";
@@ -770,6 +794,7 @@
             // 
             // splitContainer1.Panel1
             // 
+            this.splitContainer1.Panel1.Controls.Add(this._calcProgressBar);
             this.splitContainer1.Panel1.Controls.Add(groupBox3);
             this.splitContainer1.Panel1.Controls.Add(groupBox2);
             this.splitContainer1.Panel1.Controls.Add(this._paramGroupBox);
@@ -783,9 +808,19 @@
             // splitContainer1.Panel2
             // 
             this.splitContainer1.Panel2.Controls.Add(this.tabControl1);
-            this.splitContainer1.Size = new System.Drawing.Size(1178, 744);
+            this.splitContainer1.Size = new System.Drawing.Size(1178, 758);
             this.splitContainer1.SplitterDistance = 300;
             this.splitContainer1.TabIndex = 14;
+            // 
+            // _calcProgressBar
+            // 
+            this._calcProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._calcProgressBar.Location = new System.Drawing.Point(14, 207);
+            this._calcProgressBar.Name = "_calcProgressBar";
+            this._calcProgressBar.Size = new System.Drawing.Size(282, 65);
+            this._calcProgressBar.TabIndex = 50;
+            this._calcProgressBar.Visible = false;
             // 
             // _paramGroupBox
             // 
@@ -804,12 +839,37 @@
             this._paramGroupBox.Text = "Параметры";
             this._paramGroupBox.Visible = false;
             // 
+            // _calcWorker
+            // 
+            this._calcWorker.WorkerReportsProgress = true;
+            this._calcWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this._calcWorker_DoWork);
+            this._calcWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this._calc_ProgressChanged);
+            this._calcWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this._calc_RunWorkerCompleted);
+            // 
+            // _kernelWorker
+            // 
+            this._kernelWorker.WorkerReportsProgress = true;
+            this._kernelWorker.DoWork += new System.ComponentModel.DoWorkEventHandler(this._kernelWorker_DoWork);
+            this._kernelWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this._kernelWorker_ProgressChanged);
+            this._kernelWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this._kernelWorker_RunWorkerCompleted);
+            // 
+            // _kernelProgressBar
+            // 
+            this._kernelProgressBar.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left) 
+            | System.Windows.Forms.AnchorStyles.Right)));
+            this._kernelProgressBar.Location = new System.Drawing.Point(6, 135);
+            this._kernelProgressBar.Name = "_kernelProgressBar";
+            this._kernelProgressBar.Size = new System.Drawing.Size(267, 64);
+            this._kernelProgressBar.TabIndex = 52;
+            this._kernelProgressBar.Visible = false;
+            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1178, 744);
+            this.ClientSize = new System.Drawing.Size(1178, 758);
             this.Controls.Add(this.splitContainer1);
+            this.MinimumSize = new System.Drawing.Size(600, 814);
             this.Name = "Main";
             this.ShowIcon = false;
             this.Text = " Main";
@@ -886,7 +946,11 @@
         private System.Windows.Forms.ComboBox _kernelComboBox;
         private System.Windows.Forms.NumericUpDown _kernelNumericUpDown;
         private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.CheckBox _kernelCheckBox;
+        private System.Windows.Forms.ComboBox _autoCComboBox;
+        private System.Windows.Forms.ProgressBar _calcProgressBar;
+        private System.ComponentModel.BackgroundWorker _calcWorker;
+        private System.ComponentModel.BackgroundWorker _kernelWorker;
+        private System.Windows.Forms.ProgressBar _kernelProgressBar;
     }
 }
 

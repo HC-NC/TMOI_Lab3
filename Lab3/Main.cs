@@ -42,6 +42,14 @@ namespace Lab3
             "Сигмоидальное"
         };
 
+        List<string> _autoCList = new List<string>()
+        {
+            "Оптимальное",
+            "W(c) - не работает!!!",
+            "L(c)",
+            "Ручной ввод"
+        };
+
         Random _random = new Random();
 
         int _count = 100;
@@ -49,9 +57,10 @@ namespace Lab3
         LawOfDistribution _lawOfDistribution = LawOfDistribution.Uniform;
         DivisionRule _divisionRule = DivisionRule.Starges;
         KernelFunction _kernelFunction = KernelFunction.Uniform;
+        AutoC _autoC = AutoC.Auto;
 
         double _m = 0.5;
-        double _sigma = 0;
+        double _sigma = 0.01;
 
         List<double> _sampling = new List<double>();
 
@@ -60,6 +69,8 @@ namespace Lab3
 
         double _kernelSigma = 0;
 
+        Func<double, double> _kernelFunc;
+
         public Main()
         {
             InitializeComponent();
@@ -67,8 +78,11 @@ namespace Lab3
             _lawDistributionComboBox.DataSource = _lawOfDistributions;
             _divisionRuleComboBox.DataSource = _divisionRules;
             _kernelComboBox.DataSource = _kernelFunctions;
+            _autoCComboBox.DataSource = _autoCList;
 
             _samplingListBox.DataSource = _sampling;
+
+            _kernelFunc = GetUniformKernel;
         }
 
         private void _lawDistributionComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -107,6 +121,56 @@ namespace Lab3
         private void _kernelComboBox_SelectedIndexChanged(object sender, EventArgs e)
         {
             _kernelFunction = (KernelFunction)_kernelComboBox.SelectedIndex;
+
+            switch (_kernelFunction)
+            {
+                default:
+                case KernelFunction.Uniform:
+                    _kernelFunc = GetUniformKernel;
+                    break;
+                case KernelFunction.Triangular:
+                    _kernelFunc = GetTriangularKernel;
+                    break;
+                case KernelFunction.Epanechnikov:
+                    _kernelFunc = GetEpanechnikovKernel;
+                    break;
+                case KernelFunction.Quartic:
+                    _kernelFunc = GetQuarticKernel;
+                    break;
+                case KernelFunction.Triweight:
+                    _kernelFunc = GetTriweightKernel;
+                    break;
+                case KernelFunction.Tricube:
+                    _kernelFunc = GetTricubeKernel;
+                    break;
+                case KernelFunction.Gaussian:
+                    _kernelFunc = GetGaussianKernel;
+                    break;
+                case KernelFunction.Cosine:
+                    _kernelFunc = GetCosineKernel;
+                    break;
+                case KernelFunction.Logistic:
+                    _kernelFunc = GetLogisticKernel;
+                    break;
+                case KernelFunction.SigmoidFunction:
+                    _kernelFunc = GetSigmoidFunctionKernel;
+                    break;
+            }
+        }
+
+        private void _autoCComboBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            _autoC = (AutoC)_autoCComboBox.SelectedIndex;
+
+            switch (_autoC)
+            {
+                case AutoC.Manual:
+                    _kernelNumericUpDown.Enabled = true;
+                    break;
+                default:
+                    _kernelNumericUpDown.Enabled = false;
+                    break;
+            }
         }
 
         private void _countNumericUpDown_ValueChanged(object sender, EventArgs e)
@@ -145,48 +209,24 @@ namespace Lab3
         private void _kernelNumericUpDown_ValueChanged(object sender, EventArgs e)
         {
             _kernelC = (double)_kernelNumericUpDown.Value;
-        }
 
-        private void _kernelCheckBox_CheckedChanged(object sender, EventArgs e)
-        {
-            _kernelNumericUpDown.Enabled = !_kernelCheckBox.Checked;
+            _kernelButton_Click(sender, e);
         }
 
         private void _calcButton_Click(object sender, EventArgs e)
         {
-            _sampling.Clear();
-
-            switch (_lawOfDistribution)
+            if (_calcWorker.IsBusy != true)
             {
-                case LawOfDistribution.Uniform:
-                    GetUniformLawDistribution();
-                    break;
-                case LawOfDistribution.Normal:
-                    GetNormalLawDistribution();
-                    break;
-                case LawOfDistribution.Stepwise:
-                    GetStepwiseLawDistribution();
-                    break;
-                case LawOfDistribution.Bimodal:
-                    GetBimodalLawDistribution();
-                    break;
-                default:
-                    return;
+                _calcProgressBar.Visible = true;
+                _calcWorker.RunWorkerAsync();
             }
-
-            _samplingListBox.DataSource = null;
-            _samplingListBox.DataSource = _sampling;
-
-            DrawSampling();
-            CalcCharacteristics();
-            DistAssessment();
-
-            _rebuildButtom_Click(sender, e);
-            _kernelButton_Click(sender, e);
         }
 
         private void _rebuildButtom_Click(object sender, EventArgs e)
         {
+            if (_sampling.Count == 0)
+                return;
+
             _barChart.Series[0].Points.Clear();
             _kernelChart.Series[1].Points.Clear();
 
@@ -231,14 +271,14 @@ namespace Lab3
 
         private void _kernelButton_Click(object sender, EventArgs e)
         {
-            if (_kernelCheckBox.Checked)
-            {
-                _kernelC = GetAutoC();
-                _kernelNumericUpDown.Value = (decimal)_kernelC;
-            }
+            if (_sampling.Count == 0)
+                return;
 
-            Kernel();
-            DrawKernelChart();
+            _kernelProgressBar.Visible = true;
+            _kernelButton.Enabled = false;
+
+            if (_kernelWorker.IsBusy != true)
+                _kernelWorker.RunWorkerAsync();
         }
 
         private void DrawSampling()
@@ -292,32 +332,38 @@ namespace Lab3
                 double x = i / 1000d;
 
                 listX.Add(x);
-
-                double v = 0;
-
-                foreach (double xi in _sampling)
-                {
-                    if (x - xi >= 0)
-                        v++;
-                }
-
-                v /= _count;
-
-                listY.Add(v);
+                listY.Add(DistAsmt(x));
             }
 
             _distChart.Series[0].Points.DataBindXY(listX, listY);
         }
 
-        private void GetUniformLawDistribution()
+        private double DistAsmt(double x)
+        {
+            double result = 0;
+
+            foreach (double xi in _sampling)
+            {
+                if (x - xi >= 0)
+                    result++;
+            }
+
+            result /= _count;
+
+            return result;
+        }
+
+        private void GetUniformLawDistribution(BackgroundWorker worker)
         {
             for (int i = 0; i < _count; i++)
             {
                 _sampling.Add(_random.NextDouble());
+
+                worker.ReportProgress((int)((i + 1) / (double)_count * 100));
             }
         }
 
-        private void GetNormalLawDistribution()
+        private void GetNormalLawDistribution(BackgroundWorker worker)
         {
             for (int i = 0; i < _count; i++)
             {
@@ -327,18 +373,22 @@ namespace Lab3
                     sumP += _random.NextDouble();
 
                 _sampling.Add(_m + _sigma * (sumP - 6));
+
+                worker.ReportProgress((int)((i + 1) / (double)_count * 100));
             }
         }
 
-        private void GetStepwiseLawDistribution()
+        private void GetStepwiseLawDistribution(BackgroundWorker worker)
         {
             for (int i = 0; i < _count; i++)
             {
                 _sampling.Add(Math.Pow(_random.NextDouble(), 1d / 2d));
+
+                worker.ReportProgress((int)(i / (double)_count * 100));
             }
         }
 
-        private void GetBimodalLawDistribution()
+        private void GetBimodalLawDistribution(BackgroundWorker worker)
         {
             for (int i = 0; i < _count; i++)
             {
@@ -351,6 +401,8 @@ namespace Lab3
                     _sampling.Add(_m - 0.25d + _sigma * (sumP - 6));
                 else
                     _sampling.Add(_m + 0.25d + _sigma * (sumP - 6));
+
+                worker.ReportProgress((int)((i + 1) / (double)_count * 100));
             }
         }
 
@@ -424,8 +476,27 @@ namespace Lab3
             return 2 / Math.PI * 1 / (Math.Exp(u) + Math.Exp(-u));
         }
 
-        private double GetAutoC()
+        private double GetKernelC(BackgroundWorker worker)
         {
+            switch (_autoC)
+            {
+                default:
+                case AutoC.Auto:
+                    return GetAutoC(worker);
+                case AutoC.W:
+                    return GetWC(worker);
+                case AutoC.L:
+                    return GetLC(worker);
+                case AutoC.Manual:
+                    worker.ReportProgress(100);
+                    return (double)_kernelNumericUpDown.Value;
+            }
+        }
+
+        private double GetAutoC(BackgroundWorker worker)
+        {
+            worker.ReportProgress(25);
+
             double[] betta = new double[]
             {
                 1.064, 1.049, 1.059,
@@ -436,12 +507,110 @@ namespace Lab3
                 1.226, 1.208, 1.22
             };
 
+            worker.ReportProgress(50);
+
             double result = 0;
 
-            foreach (double v in betta)
-                result += v * _kernelSigma * Math.Pow(_sampling.Count, -1d / 5d);
+            worker.ReportProgress(75);
 
-            return result / betta.Length;
+            foreach (double v in betta)
+                result += v;
+
+            worker.ReportProgress(100);
+
+            return result / betta.Length * _kernelSigma * Math.Pow(_sampling.Count, -1d / 5d); ;
+        }
+
+        private double GetWC(BackgroundWorker worker)
+        {
+            double minV = double.MaxValue;
+            double minC = double.MaxValue;
+
+            for (int i = 1; i < 200; i++)
+            {
+                double c = i / 1000d;
+                double v = W(c);
+
+                if (v < minV)
+                {
+                    minV = v;
+                    minC = c;
+                }
+
+                worker.ReportProgress((int)((i + 1) / (double)200 * 100));
+            }
+
+            return minC;
+
+            double W(double c)
+            {
+                double sm = 0;
+
+                for (int i = 0; i < _count; i++)
+                {
+                    for (int j = 0; j < _count; j++)
+                        sm += _kernelFunc((_sampling[j] - _sampling[i]) / c);
+                }
+
+                double pSum = 0;
+
+                for (int j = 0; j < _count; j++)
+                {
+                    double s = 0;
+
+                    for (int i = 0; i < _count; i++)
+                    {
+                        if (i != j)
+                            s += _kernelFunc((_sampling[j] - _sampling[i]) / c);
+                    }
+
+                    pSum += s * 1 / (_count * c);
+                }
+
+                return 1 / Math.Pow(_count * c, 2) * sm - 2 / _count * pSum;
+            }
+        }
+
+        private double GetLC(BackgroundWorker worker)
+        {
+            double maxV = double.MinValue;
+            double maxC = double.MinValue;
+
+            for (int i = 1; i < 200; i++)
+            {
+                double c = i / 1000d;
+                double v = L(c);
+
+                if (v > maxV)
+                {
+                    maxV = v;
+                    maxC = c;
+                }
+
+                worker.ReportProgress((int)((i + 1) / (double)200 * 100));
+            }
+
+            return maxC;
+
+            double L(double c)
+            {
+                double result = 1;
+
+                for (int j = 0; j < _count; j++)
+                {
+                    double sm = 0;
+
+                    for (int i = 0; i < _count; i++)
+                    {
+                        if (j != i)
+                            sm += _kernelFunc((_sampling[j] - _sampling[i]) / c);
+                    }
+
+                    result *= 1 / ((_count - 1) * c) * sm;
+                }
+
+                return result;
+            }
         }
 
         private double GetKernelGrade(double kernelX)
@@ -449,41 +618,7 @@ namespace Lab3
             double result = 0;
 
             foreach (double x in _sampling)
-            {
-                switch (_kernelFunction)
-                {
-                    case KernelFunction.Uniform:
-                        result += GetUniformKernel((kernelX - x) / _kernelC);
-                        break;
-                    case KernelFunction.Triangular:
-                        result += GetTriangularKernel((kernelX - x) / _kernelC);
-                        break;
-                    case KernelFunction.Epanechnikov:
-                        result += GetEpanechnikovKernel((kernelX - x) / _kernelC);
-                        break;
-                    case KernelFunction.Quartic:
-                        result += GetQuarticKernel((kernelX - x) / _kernelC);
-                        break;
-                    case KernelFunction.Triweight:
-                        result += GetTriweightKernel((kernelX - x) / _kernelC);
-                        break;
-                    case KernelFunction.Tricube:
-                        result += GetTricubeKernel((kernelX - x) / _kernelC);
-                        break;
-                    case KernelFunction.Gaussian:
-                        result += GetGaussianKernel((kernelX - x) / _kernelC);
-                        break;
-                    case KernelFunction.Cosine:
-                        result += GetCosineKernel((kernelX - x) / _kernelC);
-                        break;
-                    case KernelFunction.Logistic:
-                        result += GetLogisticKernel((kernelX - x) / _kernelC);
-                        break;
-                    case KernelFunction.SigmoidFunction:
-                        result += GetSigmoidFunctionKernel((kernelX - x) / _kernelC);
-                        break;
-                }
-            }
+                result += _kernelFunc((kernelX - x) / _kernelC);
 
             return result / (_sampling.Count * _kernelC);
         }
@@ -509,6 +644,77 @@ namespace Lab3
 
                 _kernelChart.Series[2].Points.AddXY(x, kernelGrade);
             }
+        }
+
+        private void _calcWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            _sampling.Clear();
+
+            switch (_lawOfDistribution)
+            {
+                case LawOfDistribution.Uniform:
+                    GetUniformLawDistribution(worker);
+                    break;
+                case LawOfDistribution.Normal:
+                    GetNormalLawDistribution(worker);
+                    break;
+                case LawOfDistribution.Stepwise:
+                    GetStepwiseLawDistribution(worker);
+                    break;
+                case LawOfDistribution.Bimodal:
+                    GetBimodalLawDistribution(worker);
+                    break;
+                default:
+                    return;
+            }
+        }
+
+        private void _kernelWorker_DoWork(object sender, DoWorkEventArgs e)
+        {
+            BackgroundWorker worker = sender as BackgroundWorker;
+
+            _kernelC = GetKernelC(worker);
+        }
+
+        private void _calc_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            _samplingListBox.DataSource = null;
+            _samplingListBox.DataSource = _sampling;
+
+            DrawSampling();
+            CalcCharacteristics();
+            DistAssessment();
+
+            _rebuildButtom_Click(sender, e);
+            _kernelButton_Click(sender, e);
+
+            _calcProgressBar.Visible = false;
+            _calcProgressBar.Value = 0;
+        }
+
+        private void _kernelWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e)
+        {
+            _kernelNumericUpDown.Value = (decimal)_kernelC;
+
+            Kernel();
+            DrawKernelChart();
+
+            _kernelProgressBar.Visible = false;
+            _kernelProgressBar.Value = 0;
+
+            _kernelButton.Enabled = true;
+        }
+
+        private void _calc_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            _calcProgressBar.Value = e.ProgressPercentage;
+        }
+
+        private void _kernelWorker_ProgressChanged(object sender, ProgressChangedEventArgs e)
+        {
+            _kernelProgressBar.Value = e.ProgressPercentage;
         }
     }
 
@@ -540,5 +746,13 @@ namespace Lab3
         Cosine,
         Logistic,
         SigmoidFunction
+    }
+
+    enum AutoC
+    {
+        Auto,
+        W,
+        L,
+        Manual
     }
 }
