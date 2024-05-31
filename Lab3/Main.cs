@@ -12,7 +12,7 @@ namespace Lab3
 {
     public partial class Main : Form
     {
-        List<string> _lawOfDistributions = new List<string>()
+        private List<string> _lawOfDistributions = new List<string>()
         {
             "Равномерный",
             "Нормальный",
@@ -20,7 +20,7 @@ namespace Lab3
             "Двухмодальный"
         };
 
-        List<string> _divisionRules = new List<string>()
+        private List<string> _divisionRules = new List<string>()
         {
             "Старджесса",
             "Брукса-Каррузера",
@@ -28,7 +28,7 @@ namespace Lab3
             "Ручной ввод"
         };
 
-        List<string> _kernelFunctions = new List<string>()
+        private List<string> _kernelFunctions = new List<string>()
         {
             "Равномерное",
             "Треугольное",
@@ -42,7 +42,7 @@ namespace Lab3
             "Сигмоидальное"
         };
 
-        List<string> _autoCList = new List<string>()
+        private List<string> _autoCList = new List<string>()
         {
             "Оптимальное",
             "W(c) - не работает!!!",
@@ -50,26 +50,29 @@ namespace Lab3
             "Ручной ввод"
         };
 
-        Random _random = new Random();
+        private Random _random = new Random();
 
-        int _count = 100;
+        private int _count = 100;
 
-        LawOfDistribution _lawOfDistribution = LawOfDistribution.Uniform;
-        DivisionRule _divisionRule = DivisionRule.Starges;
-        KernelFunction _kernelFunction = KernelFunction.Uniform;
-        AutoC _autoC = AutoC.Auto;
+        private LawOfDistribution _lawOfDistribution = LawOfDistribution.Uniform;
+        private DivisionRule _divisionRule = DivisionRule.Starges;
+        private KernelFunction _kernelFunction = KernelFunction.Uniform;
+        private AutoC _autoC = AutoC.Auto;
 
-        double _m = 0.5;
-        double _sigma = 0.01;
+        private double _m = 0.5;
+        private double _sigma = 0.01;
 
-        List<double> _sampling = new List<double>();
+        private List<double> _sampling = new List<double>();
 
-        double _kernelX = 0.5;
-        double _kernelC = 0;
+        private double _min;
+        private double _max;
 
-        double _kernelSigma = 0;
+        private double _kernelX = 0.5;
+        private double _kernelC = 0;
 
-        Func<double, double> _kernelFunc;
+        private double _kernelSigma = 0;
+
+        private Func<double, double> _kernelFunc;
 
         public Main()
         {
@@ -200,7 +203,7 @@ namespace Lab3
 
         private void _nXTrackBar_Scroll(object sender, EventArgs e)
         {
-            _kernelX = _kernelXTrackBar.Value / (double)_kernelXTrackBar.Maximum;
+            _kernelX = _kernelXTrackBar.Value / 100d;
             _kernelXLabel.Text = _kernelX.ToString();
 
             Kernel();
@@ -211,6 +214,14 @@ namespace Lab3
             _kernelC = (double)_kernelNumericUpDown.Value;
 
             _kernelButton_Click(sender, e);
+        }
+
+        private void _kernelProgressBar_MouseClick(object sender, MouseEventArgs e)
+        {
+            if (e.Button == MouseButtons.Right)
+            {
+                _kernelWorker.CancelAsync();
+            }
         }
 
         private void _calcButton_Click(object sender, EventArgs e)
@@ -250,13 +261,13 @@ namespace Lab3
                     return;
             }
 
-            double columnsWidth = 1d / columnsCount;
+            double columnsWidth = (_max - _min) / columnsCount;
 
             for (int i = 0; i < columnsCount; i++)
             {
                 int pointsCount = 0;
 
-                double min = i * columnsWidth;
+                double min = i * columnsWidth + _min;
 
                 foreach (double x in _sampling)
                 {
@@ -290,8 +301,16 @@ namespace Lab3
         {
             double xSR = 0;
 
-            for (int i = 0; i < _count; i++)
-                xSR += _sampling[i];
+            _min = double.MaxValue;
+            _max = double.MinValue;
+
+            foreach (double v in _sampling)
+            {
+                xSR += v;
+
+                _min = Math.Min(v, _min);
+                _max = Math.Max(v, _max);
+            }
 
             xSR /= _count;
 
@@ -299,11 +318,11 @@ namespace Lab3
             double aS = 0;
             double eX = 0;
 
-            for (int i = 0; i < _count; i++)
+            foreach (double v in _sampling)
             {
-                d += Math.Pow(_sampling[i] - xSR, 2);
-                aS += Math.Pow(_sampling[i] - xSR, 3);
-                eX += Math.Pow(_sampling[i] - xSR, 4);
+                d += Math.Pow(v - xSR, 2);
+                aS += Math.Pow(v - xSR, 3);
+                eX += Math.Pow(v - xSR, 4);
             }
 
             d /= _count - 1;
@@ -320,6 +339,12 @@ namespace Lab3
             _sigmaTextBox.Text = sigma.ToString();
             _AsTextBox.Text = aS.ToString();
             _ExTextBox.Text = eX.ToString();
+
+            _kernelX = (_max + _min) / 2;
+            _kernelXTrackBar.Minimum = (int)(_min * 100);
+            _kernelXTrackBar.Maximum = (int)(_max * 100);
+            _kernelXTrackBar.Value = (int)(_kernelX * 100);
+            _kernelXLabel.Text = _kernelX.ToString();
         }
 
         private void DistAssessment()
@@ -327,10 +352,8 @@ namespace Lab3
             List<double> listX = new List<double>();
             List<double> listY = new List<double>();
 
-            for (int i = 0; i < 1000; i++)
+            for (double x = _min; x < _max; x += 0.001d)
             {
-                double x = i / 1000d;
-
                 listX.Add(x);
                 listY.Add(DistAsmt(x));
             }
@@ -528,6 +551,9 @@ namespace Lab3
 
             for (int i = 1; i < 200; i++)
             {
+                if (worker.CancellationPending)
+                    break;
+
                 double c = i / 1000d;
                 double v = W(c);
 
@@ -578,6 +604,9 @@ namespace Lab3
 
             for (int i = 1; i < 200; i++)
             {
+                if (worker.CancellationPending)
+                    break;
+
                 double c = i / 1000d;
                 double v = L(c);
 
@@ -639,7 +668,7 @@ namespace Lab3
 
             for (int i = 0; i < 100; i++)
             {
-                double x = i / 100d;
+                double x = (i / 100d) * (_max - _min) + _min;
                 double kernelGrade = GetKernelGrade(x);
 
                 _kernelChart.Series[2].Points.AddXY(x, kernelGrade);
