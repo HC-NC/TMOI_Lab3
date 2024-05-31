@@ -45,7 +45,7 @@ namespace Lab3
         private List<string> _autoCList = new List<string>()
         {
             "Оптимальное",
-            "W(c) - не работает!!!",
+            "W(c)",
             "L(c)",
             "Ручной ввод"
         };
@@ -575,7 +575,10 @@ namespace Lab3
                 for (int i = 0; i < _count; i++)
                 {
                     for (int j = 0; j < _count; j++)
-                        sm += _kernelFunc((_sampling[j] - _sampling[i]) / c);
+                    {
+                        if (Math.Abs(_sampling[i] - _sampling[j]) < 2 * c)
+                            sm += (2 * c - Math.Abs(_sampling[i] - _sampling[j])) / 4d;
+                    }
                 }
 
                 double pSum = 0;
@@ -590,10 +593,10 @@ namespace Lab3
                             s += _kernelFunc((_sampling[j] - _sampling[i]) / c);
                     }
 
-                    pSum += s * 1 / (_count * c);
+                    pSum += s / (_count * c);
                 }
 
-                return 1 / Math.Pow(_count * c, 2) * sm - 2 / _count * pSum;
+                return sm / Math.Pow(_count * c, 2d) - 2d * pSum / _count;
             }
         }
 
