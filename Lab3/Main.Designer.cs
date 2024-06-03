@@ -87,15 +87,15 @@
             this._kernelXTrackBar = new System.Windows.Forms.TrackBar();
             this._kernelXLabel = new System.Windows.Forms.Label();
             this._kernelChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabPage5 = new System.Windows.Forms.TabPage();
+            this._kernelOptimizationChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.tabPage6 = new System.Windows.Forms.TabPage();
+            this._kernelFunctionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this._calcProgressBar = new System.Windows.Forms.ProgressBar();
             this._paramGroupBox = new System.Windows.Forms.GroupBox();
             this._calcWorker = new System.ComponentModel.BackgroundWorker();
             this._kernelWorker = new System.ComponentModel.BackgroundWorker();
-            this.tabPage5 = new System.Windows.Forms.TabPage();
-            this._kernelOptimizationChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
-            this.tabPage6 = new System.Windows.Forms.TabPage();
-            this._kernelFunctionChart = new System.Windows.Forms.DataVisualization.Charting.Chart();
             groupBox1 = new System.Windows.Forms.GroupBox();
             label1 = new System.Windows.Forms.Label();
             label2 = new System.Windows.Forms.Label();
@@ -123,15 +123,15 @@
             this.tabPage4.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this._kernelXTrackBar)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this._kernelChart)).BeginInit();
+            this.tabPage5.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._kernelOptimizationChart)).BeginInit();
+            this.tabPage6.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this._kernelFunctionChart)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this._paramGroupBox.SuspendLayout();
-            this.tabPage5.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._kernelOptimizationChart)).BeginInit();
-            this.tabPage6.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this._kernelFunctionChart)).BeginInit();
             this.SuspendLayout();
             // 
             // groupBox1
@@ -336,7 +336,7 @@
             // 
             this._kernelNumericUpDown.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this._kernelNumericUpDown.DecimalPlaces = 2;
+            this._kernelNumericUpDown.DecimalPlaces = 3;
             this._kernelNumericUpDown.Enabled = false;
             this._kernelNumericUpDown.Increment = new decimal(new int[] {
             1,
@@ -353,7 +353,7 @@
             1,
             0,
             0,
-            131072});
+            196608});
             this._kernelNumericUpDown.Name = "_kernelNumericUpDown";
             this._kernelNumericUpDown.Size = new System.Drawing.Size(222, 27);
             this._kernelNumericUpDown.TabIndex = 22;
@@ -812,6 +812,70 @@
             this._kernelChart.TabIndex = 1;
             this._kernelChart.Text = "chart1";
             // 
+            // tabPage5
+            // 
+            this.tabPage5.Controls.Add(this._kernelOptimizationChart);
+            this.tabPage5.Location = new System.Drawing.Point(4, 30);
+            this.tabPage5.Name = "tabPage5";
+            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage5.Size = new System.Drawing.Size(866, 710);
+            this.tabPage5.TabIndex = 4;
+            this.tabPage5.Text = "График оптимизации";
+            this.tabPage5.UseVisualStyleBackColor = true;
+            // 
+            // _kernelOptimizationChart
+            // 
+            chartArea5.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea5.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea5.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea5.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea5.Name = "ChartArea1";
+            this._kernelOptimizationChart.ChartAreas.Add(chartArea5);
+            this._kernelOptimizationChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._kernelOptimizationChart.Location = new System.Drawing.Point(3, 3);
+            this._kernelOptimizationChart.Name = "_kernelOptimizationChart";
+            series7.BorderWidth = 2;
+            series7.ChartArea = "ChartArea1";
+            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series7.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            series7.Name = "Series1";
+            this._kernelOptimizationChart.Series.Add(series7);
+            this._kernelOptimizationChart.Size = new System.Drawing.Size(860, 704);
+            this._kernelOptimizationChart.TabIndex = 2;
+            this._kernelOptimizationChart.Text = "chart2";
+            // 
+            // tabPage6
+            // 
+            this.tabPage6.Controls.Add(this._kernelFunctionChart);
+            this.tabPage6.Location = new System.Drawing.Point(4, 30);
+            this.tabPage6.Name = "tabPage6";
+            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage6.Size = new System.Drawing.Size(866, 710);
+            this.tabPage6.TabIndex = 5;
+            this.tabPage6.Text = "График ядерной функции";
+            this.tabPage6.UseVisualStyleBackColor = true;
+            // 
+            // _kernelFunctionChart
+            // 
+            chartArea6.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea6.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea6.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea6.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            chartArea6.Name = "ChartArea1";
+            this._kernelFunctionChart.ChartAreas.Add(chartArea6);
+            this._kernelFunctionChart.Dock = System.Windows.Forms.DockStyle.Fill;
+            this._kernelFunctionChart.Location = new System.Drawing.Point(3, 3);
+            this._kernelFunctionChart.Name = "_kernelFunctionChart";
+            series8.BorderWidth = 2;
+            series8.ChartArea = "ChartArea1";
+            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+            series8.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
+            series8.Name = "Series1";
+            this._kernelFunctionChart.Series.Add(series8);
+            this._kernelFunctionChart.Size = new System.Drawing.Size(860, 704);
+            this._kernelFunctionChart.TabIndex = 3;
+            this._kernelFunctionChart.Text = "chart3";
+            // 
             // splitContainer1
             // 
             this.splitContainer1.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -880,70 +944,6 @@
             this._kernelWorker.ProgressChanged += new System.ComponentModel.ProgressChangedEventHandler(this._kernelWorker_ProgressChanged);
             this._kernelWorker.RunWorkerCompleted += new System.ComponentModel.RunWorkerCompletedEventHandler(this._kernelWorker_RunWorkerCompleted);
             // 
-            // tabPage5
-            // 
-            this.tabPage5.Controls.Add(this._kernelOptimizationChart);
-            this.tabPage5.Location = new System.Drawing.Point(4, 30);
-            this.tabPage5.Name = "tabPage5";
-            this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(866, 710);
-            this.tabPage5.TabIndex = 4;
-            this.tabPage5.Text = "График оптимизации";
-            this.tabPage5.UseVisualStyleBackColor = true;
-            // 
-            // _kernelOptimizationChart
-            // 
-            chartArea5.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea5.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea5.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea5.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea5.Name = "ChartArea1";
-            this._kernelOptimizationChart.ChartAreas.Add(chartArea5);
-            this._kernelOptimizationChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._kernelOptimizationChart.Location = new System.Drawing.Point(3, 3);
-            this._kernelOptimizationChart.Name = "_kernelOptimizationChart";
-            series7.BorderWidth = 2;
-            series7.ChartArea = "ChartArea1";
-            series7.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series7.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            series7.Name = "Series1";
-            this._kernelOptimizationChart.Series.Add(series7);
-            this._kernelOptimizationChart.Size = new System.Drawing.Size(860, 704);
-            this._kernelOptimizationChart.TabIndex = 2;
-            this._kernelOptimizationChart.Text = "chart2";
-            // 
-            // tabPage6
-            // 
-            this.tabPage6.Controls.Add(this._kernelFunctionChart);
-            this.tabPage6.Location = new System.Drawing.Point(4, 30);
-            this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage6.Size = new System.Drawing.Size(866, 710);
-            this.tabPage6.TabIndex = 5;
-            this.tabPage6.Text = "График ядерной функции";
-            this.tabPage6.UseVisualStyleBackColor = true;
-            // 
-            // _kernelFunctionChart
-            // 
-            chartArea6.AxisX.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea6.AxisX2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea6.AxisY.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea6.AxisY2.TitleFont = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            chartArea6.Name = "ChartArea1";
-            this._kernelFunctionChart.ChartAreas.Add(chartArea6);
-            this._kernelFunctionChart.Dock = System.Windows.Forms.DockStyle.Fill;
-            this._kernelFunctionChart.Location = new System.Drawing.Point(3, 3);
-            this._kernelFunctionChart.Name = "_kernelFunctionChart";
-            series8.BorderWidth = 2;
-            series8.ChartArea = "ChartArea1";
-            series8.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
-            series8.Font = new System.Drawing.Font("MxPlus ToshibaSat 9x16", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            series8.Name = "Series1";
-            this._kernelFunctionChart.Series.Add(series8);
-            this._kernelFunctionChart.Size = new System.Drawing.Size(860, 704);
-            this._kernelFunctionChart.TabIndex = 3;
-            this._kernelFunctionChart.Text = "chart3";
-            // 
             // Main
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 20F);
@@ -977,6 +977,10 @@
             this.tabPage4.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this._kernelXTrackBar)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this._kernelChart)).EndInit();
+            this.tabPage5.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._kernelOptimizationChart)).EndInit();
+            this.tabPage6.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this._kernelFunctionChart)).EndInit();
             this.splitContainer1.Panel1.ResumeLayout(false);
             this.splitContainer1.Panel1.PerformLayout();
             this.splitContainer1.Panel2.ResumeLayout(false);
@@ -984,10 +988,6 @@
             this.splitContainer1.ResumeLayout(false);
             this._paramGroupBox.ResumeLayout(false);
             this._paramGroupBox.PerformLayout();
-            this.tabPage5.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this._kernelOptimizationChart)).EndInit();
-            this.tabPage6.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this._kernelFunctionChart)).EndInit();
             this.ResumeLayout(false);
 
         }
