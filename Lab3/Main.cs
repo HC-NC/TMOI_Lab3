@@ -165,6 +165,8 @@ namespace Lab3
                     _kernelFunc = GetSigmoidFunctionKernel;
                     break;
             }
+
+            DrawKernelFunctionChart();
         }
 
         private void _autoCComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -712,6 +714,14 @@ namespace Lab3
 
                 _kernelOptimizationChart.Series[0].Points.AddXY(_kernelOptimizationX[i], y);
             }
+        }
+
+        private void DrawKernelFunctionChart()
+        {
+            _kernelFunctionChart.Series[0].Points.Clear();
+
+            for (int i = -500; i <= 500; i++)
+                _kernelFunctionChart.Series[0].Points.AddXY(i / 100d, _kernelFunc(i / 100d));
         }
 
         private void _calcWorker_DoWork(object sender, DoWorkEventArgs e)
