@@ -74,6 +74,12 @@ namespace Lab3
 
         private Func<double, double> _kernelFunc;
 
+        private List<double> _kernelOptimizationX = new List<double>();
+        private List<double> _kernelOptimizationY = new List<double>();
+
+        private double _kernelOptimizationMin;
+        private double _kernelOptimizationMax;
+
         public Main()
         {
             InitializeComponent();
@@ -541,7 +547,7 @@ namespace Lab3
 
             worker.ReportProgress(100);
 
-            return result / betta.Length * _kernelSigma * Math.Pow(_sampling.Count, -1d / 5d); ;
+            return result / betta.Length * _kernelSigma * Math.Pow(_sampling.Count, -1d / 5d);
         }
 
         private double GetWC(BackgroundWorker worker)
@@ -549,12 +555,14 @@ namespace Lab3
             double minV = double.MaxValue;
             double minC = double.MaxValue;
 
-            for (int i = 1; i < 200; i++)
+            _kernelOptimizationMax = double.MinValue;
+
+            for (int i = 1; i < 50; i++)
             {
                 if (worker.CancellationPending)
                     break;
 
-                double c = i / 1000d;
+                double c = i / 100d;
                 double v = W(c);
 
                 if (v < minV)
@@ -563,8 +571,15 @@ namespace Lab3
                     minC = c;
                 }
 
-                worker.ReportProgress((int)((i + 1) / (double)200 * 100));
+                _kernelOptimizationMax = Math.Max(v, _kernelOptimizationMax);
+
+                _kernelOptimizationX.Add(c);
+                _kernelOptimizationY.Add(v);
+
+                worker.ReportProgress((int)((i + 1) / (double)50 * 100));
             }
+
+            _kernelOptimizationMin = minV;
 
             return minC;
 
@@ -605,12 +620,14 @@ namespace Lab3
             double maxV = double.MinValue;
             double maxC = double.MinValue;
 
-            for (int i = 1; i < 200; i++)
+            _kernelOptimizationMin = double.MaxValue;
+
+            for (int i = 1; i < 50; i++)
             {
                 if (worker.CancellationPending)
                     break;
 
-                double c = i / 1000d;
+                double c = i / 100d;
                 double v = L(c);
 
                 if (v > maxV)
@@ -619,8 +636,15 @@ namespace Lab3
                     maxC = c;
                 }
 
-                worker.ReportProgress((int)((i + 1) / (double)200 * 100));
+                _kernelOptimizationMin = Math.Min(v, _kernelOptimizationMin);
+
+                _kernelOptimizationX.Add(c);
+                _kernelOptimizationY.Add(v);
+
+                worker.ReportProgress((int)((i + 1) / (double)50 * 100));
             }
+
+            _kernelOptimizationMax = maxV;
 
             return maxC;
 
@@ -671,10 +695,22 @@ namespace Lab3
 
             for (int i = 0; i < 100; i++)
             {
-                double x = (i / 100d) * (_max - _min) + _min;
+                double x = (i / 100d) * (_max - _min + 3 * _kernelC) + (_min - 1.5d * _kernelC);
                 double kernelGrade = GetKernelGrade(x);
 
                 _kernelChart.Series[2].Points.AddXY(x, kernelGrade);
+            }
+        }
+
+        private void DrawKernelOptimizationChart()
+        {
+            _kernelOptimizationChart.Series[0].Points.Clear();
+
+            for (int i = 0; i < _kernelOptimizationX.Count; i++)
+            {
+                double y = (_kernelOptimizationY[i] - _kernelOptimizationMin) / (_kernelOptimizationMax - _kernelOptimizationMin);
+
+                _kernelOptimizationChart.Series[0].Points.AddXY(_kernelOptimizationX[i], y);
             }
         }
 
@@ -707,6 +743,9 @@ namespace Lab3
         {
             BackgroundWorker worker = sender as BackgroundWorker;
 
+            _kernelOptimizationX.Clear();
+            _kernelOptimizationY.Clear();
+
             _kernelC = GetKernelC(worker);
         }
 
@@ -732,6 +771,7 @@ namespace Lab3
 
             Kernel();
             DrawKernelChart();
+            DrawKernelOptimizationChart();
 
             _kernelProgressBar.Visible = false;
             _kernelProgressBar.Value = 0;
